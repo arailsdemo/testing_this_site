@@ -16,4 +16,10 @@ describe "posts/index.html.haml" do
       :description => 'Description2',
       :created_at => Time.utc(2001))
   end
+
+  context 'when an admin is not signed in' do
+    before do
+      view.stub(:admin?) { false }
+    end
+  end
 end
