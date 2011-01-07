@@ -21,5 +21,12 @@ describe "posts/index.html.haml" do
     before do
       view.stub(:admin?) { false }
     end
+
+    context "and no posts are present" do
+      before do
+        assign :posts, []
+        render
+      end
+    end
   end
 end
