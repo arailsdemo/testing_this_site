@@ -27,6 +27,18 @@ describe "posts/index.html.haml" do
         assign :posts, []
         render
       end
+
+      it "displays the title as an h1" do
+        rendered.should have_selector 'h1',
+          :content => 'Building This Site',
+          :count => 1
+      end
+
+      %W(postShow sequence title date).each do |klass|
+        it "does not display div with class '#{klass}'" do
+          rendered.should_not have_selector 'div', :class => klass
+        end
+      end
     end
   end
 end
