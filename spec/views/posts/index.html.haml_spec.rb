@@ -1,6 +1,15 @@
 require "spec_helper"
 
+def post1_displayed_attributes
+  {
+    :sequence => 1,
+    :title => 'First Post',
+    :date => "January 01, 2000"
+  }
+end
+
 describe "posts/index.html.haml" do
+
   let(:post1) do
     mock_model('Post',
       :sequence => 1,
@@ -37,6 +46,21 @@ describe "posts/index.html.haml" do
       %W(postShow sequence title date).each do |klass|
         it "does not display div with class '#{klass}'" do
           rendered.should_not have_selector 'div', :class => klass
+        end
+      end
+    end
+
+    context "and two posts are present" do
+      before do
+        assign :posts, [post1, post2]
+        render
+      end
+
+      post1_displayed_attributes.each_pair do |attribute, value|
+        it "displays div.#{attribute} with #{value}" do
+          rendered.should have_selector 'div > div',
+            :class => attribute.to_s,
+            :content => value.to_s
         end
       end
     end

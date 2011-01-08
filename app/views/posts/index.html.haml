@@ -1,1 +1,7 @@
 %h1 Building This Site
+
+- @posts.each do |post|
+  .postShow
+    .sequence= post.sequence
+    .title= post.title
+    .date= l post.created_at, :format => :date
