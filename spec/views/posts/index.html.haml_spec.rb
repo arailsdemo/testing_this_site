@@ -34,6 +34,10 @@ describe "posts/index.html.haml" do
       :created_at => Time.utc(2001))
   end
 
+  before do
+    view.stub(:title)
+  end
+
   context 'when an admin is not signed in' do
     before do
       view.stub(:admin?) { false }
@@ -42,22 +46,17 @@ describe "posts/index.html.haml" do
     context "and no posts are present" do
       before do
         assign :posts, []
-        render :file => "posts/index.html.haml", :layout => "layouts/application.html.haml"
       end
 
-      it "displays the title as an h1" do
-        rendered.should have_selector 'h1',
-          :content => 'Building This Site',
-          :count => 1
+      it "uses the #title helper method" do
+        view.should_receive(:title).with "Building This Site"
+        render
       end
 
-      it "displays the title in <title>" do
-        rendered.should have_selector 'title',
-          :content => 'aRailsDemo | Building This Site'
-      end
 
       %W(postShow sequence title date).each do |klass|
         it "does not display div with class '#{klass}'" do
+          render
           rendered.should_not have_selector 'div', :class => klass
         end
       end
