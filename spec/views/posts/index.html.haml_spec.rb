@@ -57,11 +57,28 @@ describe "posts/index.html.haml" do
       end
 
       post1_displayed_attributes.each_pair do |attribute, value|
-        it "displays div.#{attribute} with #{value}" do
+        it "displays div.#{attribute} with '#{value}'" do
           rendered.should have_selector 'div > div',
             :class => attribute.to_s,
             :content => value.to_s
         end
+      end
+    end
+  end
+
+  context "when an admin is signed in and there is one post" do
+    before do
+      view.stub(:admin?) { true }
+      assign :posts, [post1]
+      render
+    end
+
+    it "has a destroy link for that post inside .admin" do
+      rendered.should have_selector('.postShow > .admin') do |admin_div|
+        admin_div.should have_selector 'a',
+          :href => post_url(post1.sequence),
+          :"data-method" => "delete",
+          :content => 'Destroy'
       end
     end
   end

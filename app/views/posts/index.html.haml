@@ -5,3 +5,6 @@
     .sequence= post.sequence
     .title= post.title
     .date= l post.created_at, :format => :date
+    -if admin?
+      .admin
+        = link_to 'Destroy', post_url(post.sequence), :confirm => 'Are you sure?', :method => :delete
