@@ -42,13 +42,18 @@ describe "posts/index.html.haml" do
     context "and no posts are present" do
       before do
         assign :posts, []
-        render
+        render :file => "posts/index.html.haml", :layout => "layouts/application.html.haml"
       end
 
       it "displays the title as an h1" do
         rendered.should have_selector 'h1',
           :content => 'Building This Site',
           :count => 1
+      end
+
+      it "displays the title in <title>" do
+        rendered.should have_selector 'title',
+          :content => 'aRailsDemo | Building This Site'
       end
 
       %W(postShow sequence title date).each do |klass|
