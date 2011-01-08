@@ -1,5 +1,8 @@
 %h1 Building This Site
 
+- if admin?
+  = link_to 'New Post', new_post_path
+
 - @posts.each do |post|
   .postShow
     .sequence= post.sequence
@@ -7,4 +10,6 @@
     .date= l post.created_at, :format => :date
     -if admin?
       .admin
+        = link_to 'Edit', edit_post_path(post.sequence)
         = link_to 'Destroy', post_url(post.sequence), :confirm => 'Are you sure?', :method => :delete
+    .clear

@@ -8,6 +8,14 @@ def post1_displayed_attributes
   }
 end
 
+def post2_displayed_attributes
+  {
+    :sequence => 2,
+    :title => 'Second Post',
+    :date => "January 01, 2001"
+  }
+end
+
 describe "posts/index.html.haml" do
 
   let(:post1) do
@@ -56,12 +64,24 @@ describe "posts/index.html.haml" do
         render
       end
 
-      post1_displayed_attributes.each_pair do |attribute, value|
-        it "displays div.#{attribute} with '#{value}'" do
-          rendered.should have_selector 'div > div',
-            :class => attribute.to_s,
-            :content => value.to_s
+      [post1_displayed_attributes, post2_displayed_attributes].each do |hash|
+        hash.each_pair do |attribute, value|
+          it "displays div.#{attribute} with '#{value}'" do
+            rendered.should have_selector 'div > div',
+              :class => attribute.to_s,
+              :content => value.to_s
+          end
         end
+      end
+
+      it "does not have a delete link" do
+        rendered.should_not have_selector 'a',
+          :"data-method" => "delete"
+      end
+
+      it "does not have a new link" do
+        rendered.should_not have_selector 'a',
+          :href => new_post_path
       end
     end
   end
@@ -73,6 +93,12 @@ describe "posts/index.html.haml" do
       render
     end
 
+    it "has an edit link for that post inside .admin" do
+      rendered.should have_selector 'a',
+        :href => edit_post_path(post1.sequence),
+        :content => 'Edit'
+    end
+
     it "has a destroy link for that post inside .admin" do
       rendered.should have_selector('.postShow > .admin') do |admin_div|
         admin_div.should have_selector 'a',
@@ -80,6 +106,12 @@ describe "posts/index.html.haml" do
           :"data-method" => "delete",
           :content => 'Destroy'
       end
+    end
+
+    it "has a new link" do
+      rendered.should have_selector 'a',
+        :href => new_post_path,
+        :content => 'New'
     end
   end
 end
