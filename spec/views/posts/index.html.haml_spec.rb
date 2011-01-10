@@ -19,7 +19,7 @@ end
 describe "posts/index.html.haml" do
 
   let(:post1) do
-    mock_model('Post',
+    stub_model(Post,
       :sequence => 1,
       :title => 'First Post',
       :description => 'Description1',
@@ -27,7 +27,7 @@ describe "posts/index.html.haml" do
   end
 
   let(:post2) do
-    mock_model('Post',
+    stub_model(Post,
       :sequence => 2,
       :title => 'Second Post',
       :description => 'Description2',
