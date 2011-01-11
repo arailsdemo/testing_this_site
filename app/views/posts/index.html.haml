@@ -5,9 +5,9 @@
 
 - @posts.each do |post|
   .postShow
-    .sequence= post.sequence
-    .title= post.title
-    .date= l post.created_at, :format => :date
+    .sequence= sequence_display(post)
+    .title= post_title(post)
+    .date= post_date(post)
     -if admin?
       .admin
         = link_to 'Edit', edit_post_path(post.sequence)

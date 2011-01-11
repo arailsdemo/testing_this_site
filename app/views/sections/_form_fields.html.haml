@@ -2,3 +2,7 @@
   .section
     %h2 Section
     = section_f.input :heading
+    = section_f.input :body, :input_html => { :rows => 5 }
+    = section_f.input :position
+
+    = render :partial => 'snippets/form_fields', :locals => { :builder => section_f }

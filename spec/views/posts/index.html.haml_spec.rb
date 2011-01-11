@@ -4,7 +4,7 @@ def post1_displayed_attributes
   {
     :sequence => 1,
     :title => 'First Post',
-    :date => "January 01, 2000"
+    :date => "September 07, 1999"
   }
 end
 
@@ -12,7 +12,7 @@ def post2_displayed_attributes
   {
     :sequence => 2,
     :title => 'Second Post',
-    :date => "January 01, 2001"
+    :date => "December 20, 1999"
   }
 end
 
@@ -23,7 +23,8 @@ describe "posts/index.html.haml" do
       :sequence => 1,
       :title => 'First Post',
       :description => 'Description1',
-      :created_at => Time.utc(2000))
+      :status => 'published',
+      :created_at => Time.at(936702800))
   end
 
   let(:post2) do
@@ -31,7 +32,8 @@ describe "posts/index.html.haml" do
       :sequence => 2,
       :title => 'Second Post',
       :description => 'Description2',
-      :created_at => Time.utc(2001))
+      :status => 'published',
+      :created_at => Time.at(945702800))
   end
 
   before do

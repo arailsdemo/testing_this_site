@@ -1,2 +1,13 @@
-= form_for @post do |f|
-  = f.text_field :title
+-javascript "post"
+
+= simple_form_for @post, :html => { :multipart => true } do |f|
+  = render 'shared/error_messages', :target => @post
+
+  = f.input :title
+  = f.input :status, :as => :select, :collection => Post::STATUSES, :include_blank => false
+  = f.input :sequence
+  = f.input :description, :input_html => { :rows => 5 }
+
+  = render :partial => 'sections/form_fields', :locals => { :builder => f }
+
+  = f.button :submit
