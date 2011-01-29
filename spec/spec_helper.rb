@@ -11,7 +11,14 @@ Spork.prefork do
   RSpec.configure do |config|
     config.mock_with :rspec
     config.use_transactional_fixtures = true
-    config.include Stubs
+
+    config.include Stubs, :type => :view, :example_group => {
+      :file_path => config.escaped_path(%w[spec (views|helpers)])
+    }
+
+    config.include MySpec::IntegrationHelper, :type => :integration, :example_group => {
+      :file_path => config.escaped_path(%w[spec integration])
+    }
   end
 end
 

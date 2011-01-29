@@ -1,8 +1,6 @@
 require "spec_helper"
 
 describe "posts/_form.html.haml" do
-  include Stubs
-
   before do
     view.stub :javascript
     stub_template "shared/_error_messages.html.haml" => 'error messages'
