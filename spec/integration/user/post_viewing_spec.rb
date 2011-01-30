@@ -25,6 +25,11 @@ Scenario "Meet Capybara (non admin).", :integration => true do
         within("div.postShow[2]") do
           page.should have_content(post2.title)
         end
+
+        # Webrat syntax
+        page.should have_selector '.postShow' do |div|
+          div.should contain post2.title
+        end
       end
 
       When "Capybara clicks on the 'Show' link for the first post," do
@@ -39,7 +44,15 @@ Scenario "Meet Capybara (non admin).", :integration => true do
         end
 
         And_ "he shouldn't see an edit link" do
+          # Capybara syntax
+          page.has_selector?('a', :text => 'Edit').should be_false
           page.should have_no_selector 'a', :text => 'Edit'
+#         page.should_not have_content 'Edit'    # Capybara recommends not doing this
+
+          # Webrat syntax
+          page.should_not have_selector("a", :count => 2)
+          page.should_not have_selector 'a', :content => 'Edit'
+          page.should_not contain 'Edit'
         end
       end
     end
