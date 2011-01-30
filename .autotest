@@ -1,3 +1,10 @@
+Autotest::Growl::remote_notification = true
+
+Autotest.add_hook :ran_command do |autotest, modified|
+  alerts = autotest.results.select { |line| /Duck Punched!/ =~ line }.uniq
+  Autotest::Growl.growl('Todo:', alerts.join(''), 'pending', 0) unless alerts.empty?
+end
+
 # Autotest.add_hook :initialize do |at|
 #   at.add_mapping(%r%^spec/(integration)/.*rb$%) {|filename, _|
 #     filename

@@ -4,6 +4,7 @@ module MySpec
       base.class_eval do
         include DSLHelper
         include SessionsHelper
+        include TodoHelper
       end
     end
   end
@@ -27,6 +28,7 @@ module MySpec
   module SessionsHelper
     def not_admin
       ApplicationController.class_eval do
+        RSpec.hack_alert(self, __method__)
         def admin?
           false
         end
@@ -35,9 +37,24 @@ module MySpec
 
     def sign_in_admin
       ApplicationController.class_eval do
+        RSpec.hack_alert(self, __method__)
         def admin?
           true
         end
+      end
+    end
+  end
+
+  module TodoHelper
+    RSpec.module_eval do
+      def self.hack_alert(klass, method)
+        RSpec.configuration.reporter.hack_alert(klass, method)
+      end
+    end
+
+    RSpec::Core::Reporter.class_eval do
+      def hack_alert(klass, method)
+        notify :message, "\nDuck Punched!: #{klass.name} #{method.to_s}"
       end
     end
   end
