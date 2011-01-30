@@ -1,6 +1,8 @@
 require "spec_helper"
 
 Scenario "Meet Capybara (non admin).", :integration => true do
+  before { not_admin }
+
   Given "He's crawling around our app." do
     let(:post1){ @post1 ||= Factory(:post) }
     let(:post2){ @post2 ||= Factory(:post) }
@@ -27,11 +29,11 @@ Scenario "Meet Capybara (non admin).", :integration => true do
 
       When "Capybara clicks on the 'Show' link for the first post," do
         before do
-          find(:xpath, "//a[@href=\'#{post_path(post1.sequence)}\']").click
+          find(:xpath, "//a[@href=\'#{post_url(post1.sequence)}\']").click
         end
 
         Then "he should see the show page" do
-          save_and_open_page
+#          save_and_open_page
           page.should have_content post1.title
           current_path.should == "/posts/#{post1.sequence}"
         end

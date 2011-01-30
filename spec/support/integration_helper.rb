@@ -3,6 +3,7 @@ module MySpec
     def self.included(base)
       base.class_eval do
         include DSLHelper
+        include SessionsHelper
       end
     end
   end
@@ -19,6 +20,24 @@ module MySpec
         define_example_method :Then
         define_example_method :And_
         define_example_method :Or
+      end
+    end
+  end
+
+  module SessionsHelper
+    def not_admin
+      ApplicationController.class_eval do
+        def admin?
+          false
+        end
+      end
+    end
+
+    def sign_in_admin
+      ApplicationController.class_eval do
+        def admin?
+          true
+        end
       end
     end
   end

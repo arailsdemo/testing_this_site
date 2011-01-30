@@ -17,7 +17,7 @@ Spork.prefork do
     }
 
     config.include MySpec::IntegrationHelper, :type => :integration, :example_group => {
-      :file_path => config.escaped_path(%w[spec integration])
+      :file_path => config.escaped_path(%w[spec (integration|requests)])
     }
   end
 end
